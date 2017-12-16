@@ -1,7 +1,7 @@
 {
   "connectConfig": {
     "host": "0.0.0.0",
-    "port": 5433,
+    "port": 80,
     "routes": {
       "cors": true
     },
