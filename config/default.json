@@ -1,0 +1,63 @@
+{
+  "connectConfig": {
+    "host": "0.0.0.0",
+    "port": 5433,
+    "routes": {
+      "cors": true
+    },
+    "router": {
+      "isCaseSensitive": false,
+      "stripTrailingSlash": false
+    }
+  },
+  "goodConfig": {
+    "ops": {
+      "interval": 1000
+    },
+    "reporters": {
+      "myConsoleReporter": [{
+          "module": "good-squeeze",
+          "name": "Squeeze",
+          "args": [{
+            "log": "*",
+            "response": "*"
+          }]
+        },
+        {
+          "module": "good-console"
+        },
+        "stdout"
+      ],
+      "file": [{
+          "module": "good-squeeze",
+          "name": "Squeeze",
+          "args": [{
+            "log": "*",
+            "request": "*",
+            "response": "*"
+          }]
+        },
+        {
+          "module": "good-squeeze",
+          "name": "SafeJson",
+          "args": [
+            null,
+            {
+              "separator": ","
+            }
+          ]
+        },
+        {
+          "module": "rotating-file-stream",
+          "args": [
+            "log",
+            {
+              "size": "1000KB",
+              "path": "./logs"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
