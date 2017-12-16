@@ -7,6 +7,7 @@ export default[
         handler : function (request, reply) {
             if (request.payload && request.payload.content) {
                 let voiceBuffer = new Buffer(request.payload.content);
+                console.log(request.payload.content);
                 speechClient()
                     .recognize(voiceBuffer, 'amr', 8000)
                     .then(function (result) {
