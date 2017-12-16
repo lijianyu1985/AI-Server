@@ -1,26 +1,20 @@
-import speechClient from "./../utils/baiduSpeech";
-
+import speechClient, {rec} from "./../utils/baiduSpeech";
+import fs from "fs";
+ 
 export default[
     {
         method : 'POST',
         path : '/Speech',
         handler : function (request, reply) {
             if (request.payload && request.payload.content) {
-                let voiceBuffer = new Buffer(request.payload.content);
-                speechClient()
-                    .recognize(voiceBuffer, 'amr', 8000)
-                    .then(function (result) {
-                        console.log('<recognize>: ' + JSON.stringify(result));
-                        if (result.err_no === 0) {
-                            reply({speech: result.result});
-                        }
-                        else {
-                            reply({message: result.err_msg});
-                        }
-                    }, function (err) {
-                        console.log(err);
-                        reply({message: error.message});
-                    });
+                let voiceBuffer = Buffer.from(request.payload.content,'base64');
+                rec(voiceBuffer, 5).then(function (result) {
+                    console.log('<recognize>: ' + JSON.stringify(result));
+                    reply(result);
+                }, function (err) {
+                    console.log(err);
+                    reply({message: error.message});
+                });
             } else {
                 reply({message: "请上传文件"});
             }
@@ -33,8 +27,7 @@ export default[
                 maxBytes: 10485760
             }
         }
-    },
-    {
+    }, {
         method : 'GET',
         path : '/Speech',
         handler : function (request, reply) {
